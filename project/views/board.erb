@@ -1,0 +1,16 @@
+<table id="board">
+  <% 10.times do |i| %>
+    <tr>
+      <% 10.times do |u| %>
+        <td class="<%= (i+u) % 2 == 0 ? 'dark' : 'light' %>" id="cell<%= "0#{i}"[0..1] %><%= "0#{u}"[0..1] %>"></td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
+<script>
+  Event.observe(window, 'load', function () {
+    Game.setup();
+    Game.state = <%= @game.state.to_json %>;
+    Game.render();
+  });
+</script>
