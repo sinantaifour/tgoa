@@ -12,8 +12,8 @@ get '/' do
   erb :index
 end
 
-get /\/boards\/(\d+)/ do |n|
-  Games::Current[n] = Games::Game.new unless Games::Current.keys.include?(n)
-  @game = Games::Current[n]
+get /\/boards\/(\d+)/ do |k|
+  Games::Current[k] = Games::Game.new unless Games::Current.keys.include?(k)
+  @game = Games::Current[k]
   erb :board
 end
