@@ -1,4 +1,3 @@
-# myapp.rb
 require 'rubygems'
 require 'sinatra'
 require 'erb'
