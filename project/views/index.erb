@@ -1,0 +1,9 @@
+<table id="board">
+  <% 10.times do |i| %>
+    <tr>
+      <% 10.times do |u| %>
+        <td class="<%= (i+u) % 2 == 0 ? 'dark' : 'light' %>"></td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
