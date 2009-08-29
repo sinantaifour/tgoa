@@ -1,27 +1,56 @@
 var Game = new function() {
 
   this.setup = function() {
-    $R(0, 9).each(function(i) {
-      $R(0, 9).each(function(u) {
-        this.getElement(i, u).observe('click', this.onClick.bindAsEventListener({'i': i, 'u': u}));
-      }.bind(this));  
-    }.bind(this));
+    this.loopOverBoard(function(i, u, e) {
+      e.observe('click', this.onClick.bindAsEventListener(this, i, u));
+    });
   };
 
   this.render = function() {
-    $A(this.state).each(function(r, i) {
-      $A(r).each(function(c, u) {
-        if (c) { this.getElement(i, u).update('<img src="/images/' + c + '.png" />'); }
+    this.loopOverBoard(function(i, u, e) {
+      e.update(this.state[i][u] ? ('<img src="/images/' + this.state[i][u] + '.png" />') : '');
+    });
+  };
+
+  this.onClick = function(ev, i, u) {
+    this.removeMarks();
+    this.markLegal(i, u);
+    ev.stop();
+  };
+
+  this.markLegal = function(i, u) {
+    var oi = i, ou = u;
+    $A([-1, 0, 1]).each(function(di) {
+      $A([-1, 0, 1]).each(function(du) {
+        if (di == 0 && du == 0) { return; }
+        i = oi; u = ou;
+        while($R(0, 9).include(i+=di) && $R(0, 9).include(u+=du) && this.state[i][u] == "") {
+          this.state[i][u] = "m";
+        }
+      }.bind(this));
+    }.bind(this));
+    this.render();
+  };
+
+  this.removeMarks = function() {
+    this.loopOverBoard(function(i, u, e) {
+      if (this.state[i][u] == "m") { this.state[i][u] = ""; }
+    });
+    this.render();
+  };
+
+  // ===== Helpers =====
+
+  this.loopOverBoard = function(f) {
+    $R(0, 9).each(function(i) {
+      $R(0, 9).each(function(u) {
+        (f.bind(this))(i, u, this.getElement(i, u));
       }.bind(this));
     }.bind(this));
   };
 
   this.getElement = function(i, u) {
     return $("cell" + ("0" + i).slice(0, 2) + ("0" + u).slice(0, 2));
-  };
-
-  this.onClick = function(ev) {
-    alert(this.i + " " + this.u);
   };
 
 };
