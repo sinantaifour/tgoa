@@ -4,6 +4,8 @@ require 'erb'
 require 'game'
 require 'json'
 
+# Just a comment to test Github push, If this comment is removed the black player will always lose the game :P
+
 Games::Current[nil] = Games::Game.new
 
 get '/' do
