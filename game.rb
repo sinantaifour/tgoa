@@ -6,27 +6,30 @@ module Games
 
   class Game
 
-    attr_reader :state  # First coordinate for rows, second for columns, state[0][0] represents the upper left corner.
+    attr_reader :state # First coordinate for rows, second for columns, state[0][0] represents the upper left corner.
+    attr_reader :turn
 
     def initialize
       @state = (0..9).map { (0..9).map { "" } }
       [[0, 3], [0, 6], [3, 0], [3, 9]].each { |t| @state[t[0]][t[1]] = "b" }
       [[6, 0], [6, 9], [9, 3], [9, 6]].each { |t| @state[t[0]][t[1]] = "w" }
+      @turn = :white
     end
 
-    def play(move)
+    def play(move, color)
       # Parse string
       raise GameError, "Unable to parse move string" unless m = move.downcase.match(/([a-j](10|[1-9]))-([a-j](10|[1-9]))\/([a-j](10|[1-9]))/)
       move = [1, 3, 5].map { |i| [10 - m[i][1..-1].to_i, m[i][0] - ?a] } # move here contains an array of 3 points, with coordinates suitable for state.
       # Check turn
-      # TODO
+      raise GameError, "Incorrect player turn" unless @turn == color
       # Check move
-      # TODO: check starting point has a queen of correct color
+      raise GameError, "Incorrect beginning of move" unless @state[move[0][0]][move[0][1]] == @turn.to_s.slice(0, 1)
       raise GameError, "Invalid move" unless valid_pair(move[0], move[1]) and valid_pair(move[1], move[2])
       # Apply move
       @state[move[1][0]][move[1][1]] = @state[move[0][0]][move[0][1]]
       @state[move[0][0]][move[0][1]] = ""
       @state[move[2][0]][move[2][1]] = "a"
+      @turn = ([:black, :white] - [@turn]).first
     end
 
     private
