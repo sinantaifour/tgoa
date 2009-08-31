@@ -6,12 +6,10 @@ var Game = new function() {
     });
   };
 
-  this.render = function() {
+  this.render = function() { // Renders the whole board, avoid using when possible.
     this.loopOverBoard(function(i, u, e) {
       var content = this.state[i][u] ? ('<img src="/images/' + this.state[i][u] + '.png" />') : '';
-      if ((new Element("div").update(content.toString())).innerHTML != e.innerHTML) {
-        e.update(content.toString());
-      }
+      e.update(content.toString());
     });
   };
 
@@ -37,9 +35,11 @@ var Game = new function() {
 
   this.removeMarks = function() {
     this.loopOverBoard(function(i, u, e) {
-      if (this.state[i][u] == "m") { this.state[i][u] = ""; }
+      if (this.state[i][u] == "m") {
+        this.state[i][u] = "";
+        e.update("");
+      }
     });
-    this.render();
   };
 
   // ===== Helpers =====
