@@ -8,7 +8,10 @@ var Game = new function() {
 
   this.render = function() {
     this.loopOverBoard(function(i, u, e) {
-      e.update(this.state[i][u] ? ('<img src="/images/' + this.state[i][u] + '.png" />') : '');
+      var content = this.state[i][u] ? ('<img src="/images/' + this.state[i][u] + '.png" />') : '';
+      if ((new Element("div").update(content.toString())).innerHTML != e.innerHTML) {
+        e.update(content.toString());
+      }
     });
   };
 
@@ -26,10 +29,10 @@ var Game = new function() {
         i = oi; u = ou;
         while($R(0, 9).include(i+=di) && $R(0, 9).include(u+=du) && this.state[i][u] == "") {
           this.state[i][u] = "m";
+          this.getElement(i, u).update('<img src="/images/m.png" />');
         }
       }.bind(this));
     }.bind(this));
-    this.render();
   };
 
   this.removeMarks = function() {
