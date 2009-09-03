@@ -18,6 +18,7 @@ module Games
 
     def play(move, color)
       # Parse string
+      raise GameError, "Must pass move" unless move
       raise GameError, "Unable to parse move string" unless m = move.downcase.match(/([a-j](10|[1-9]))-([a-j](10|[1-9]))\/([a-j](10|[1-9]))/)
       move = [1, 3, 5].map { |i| [10 - m[i][1..-1].to_i, m[i][0] - ?a] } # move here contains an array of 3 points, with coordinates suitable for state.
       # Check turn

@@ -39,10 +39,20 @@ var Game = new function() {
         this.state[i][u] = "a";
         this.removeMarks();
         this.renderSpecific(this.move);
-        // TODO: send move
+        this.sendMove();
         this.move.clear();
       }
     }
+  };
+
+  // ===== Communication =====
+
+  this.sendMove = function() {
+    // TODO: need to deal with errors
+    new Ajax.Request(window.location.pathname, {
+      method: 'post',
+      parameters: {'move': this.moveArrayToString(this.move), 'ie': (new Date()).getTime()}
+    });
   };
 
   // ===== Rendering =====
@@ -96,6 +106,18 @@ var Game = new function() {
 
   this.getElement = function(i, u) {
     return $("cell" + ("0" + i).slice(0, 2) + ("0" + u).slice(0, 2));
+  };
+
+  this.moveArrayToString = function(arr) {
+    var sep = ["-", "/", ""]
+    var coordinate = function(p) {
+      return String.fromCharCode(p[1] + 97) + String(10 - p[0]);
+    };
+    return $A(arr).map(function(p) { return coordinate(p) + sep.shift(); }).join("");
+  };
+
+  this.moveStringToArray = function(str) {
+    // TODO: implement me
   };
 
 };

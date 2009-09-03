@@ -21,8 +21,9 @@ end
 
 post /\/boards\/(\w+)/ do |k|
   # TODO: authenticate the user
+  # TODO: need to deal with possible exceptions
   raise Sinatra::NotFound unless Games::Current.keys.include?(k)
   @game = Games::Current[k]
-  @game.play(params[:mode], @game.turn) # TODO: assumes correct color always, fix with user authentication
+  @game.play(params[:move], @game.turn) # TODO: assumes correct color always, fix with user authentication
   return ""
 end
