@@ -1,10 +1,51 @@
 var Game = new function() {
 
+  this.move = [];
+
   this.setup = function() {
     this.loopOverBoard(function(i, u, e) {
       e.observe('click', this.onClick.bindAsEventListener(this, i, u));
     });
   };
+
+  this.onClick = function(ev, i, u) {
+    ev.stop();
+    if (!User.color) { return; }
+    if (this.move.length == 0) {
+      if (User.color == this.state[i][u]) {
+        this.move[0] = [i, u];
+        this.removeMarks();
+        this.markLegal(i, u);
+      }
+    } else if (this.move.length == 1) {
+      if (this.move[0][0] == i && this.move[0][1] == u) {
+        this.move.clear();
+        this.removeMarks();
+      } else if (this.state[i][u] == User.color) {
+        this.move[0] = [i, u];
+        this.removeMarks();
+        this.markLegal(i, u);
+      } else if (this.state[i][u] == "m") {
+        this.move[1] = [i, u];
+        this.state[i][u] = this.state[this.move[0][0]][this.move[0][1]];
+        this.state[this.move[0][0]][this.move[0][1]] = "";
+        this.removeMarks();
+        this.markLegal(i, u);
+        this.renderSpecific(this.move);
+      }
+    } else if (this.move.length == 2) {
+      if (this.state[i][u] == "m") {
+        this.move[2] = [i, u];
+        this.state[i][u] = "a";
+        this.removeMarks();
+        this.renderSpecific(this.move);
+        // TODO: send move
+        this.move.clear();
+      }
+    }
+  };
+
+  // ===== Rendering =====
 
   this.render = function() { // Renders the whole board, avoid using when possible.
     this.loopOverBoard(function(i, u, e) {
@@ -13,10 +54,11 @@ var Game = new function() {
     });
   };
 
-  this.onClick = function(ev, i, u) {
-    this.removeMarks();
-    this.markLegal(i, u);
-    ev.stop();
+  this.renderSpecific = function(arr) {
+    $(arr).each(function(p) {
+      var content = this.state[p[0]][p[1]] ? ('<img src="/images/' + this.state[p[0]][p[1]] + '.png" />') : '';
+      this.getElement(p[0], p[1]).update(content.toString());
+    }.bind(this));
   };
 
   this.markLegal = function(i, u) {

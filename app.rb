@@ -18,3 +18,11 @@ get /\/boards\/(\w+)/ do |k|
   @game = Games::Current[k]
   erb :board
 end
+
+post /\/boards\/(\w+)/ do |k|
+  # TODO: authenticate the user
+  raise Sinatra::NotFound unless Games::Current.keys.include?(k)
+  @game = Games::Current[k]
+  @game.play(params[:mode], @game.turn) # TODO: assumes correct color always, fix with user authentication
+  return ""
+end
