@@ -1,0 +1,3 @@
+var User = new function() {
+
+};
