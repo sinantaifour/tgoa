@@ -26,7 +26,7 @@ module Games
       raise GameError, "Incorrect player turn" unless @turn == color
       # Check move
       raise GameError, "Incorrect beginning of move" unless @state[move[0][0]][move[0][1]] == @turn.to_s.slice(0, 1)
-      raise GameError, "Invalid move" unless valid_pair(move[0], move[1]) and valid_pair(move[1], move[2])
+      raise GameError, "Invalid move" unless valid_pair(move[0], move[1]) and valid_pair(move[1], move[2], move[0])
       # Apply move
       @state[move[1][0]][move[1][1]] = @state[move[0][0]][move[0][1]]
       @state[move[0][0]][move[0][1]] = ""
@@ -40,7 +40,7 @@ module Games
     # A pair of points is valid if the two points lie inside the board, are on
     # a horizontal, vertical or diagonal line, and there are nothing between
     # the two points, including the destination.
-    def valid_pair(p1, p2)
+    def valid_pair(p1, p2, ignoring = nil)
       return false unless [p1, p2].map { |p| p.length }.count(2) == 2
       return false unless [p1, p2].flatten.map { |c| (0..9).include? c }.all?
       d = p1.zip(p2).map { |t| t[1] - t[0] }
@@ -49,7 +49,7 @@ module Games
       pt = p1
       while pt != p2
         pt = pt.zip(d).map { |t| t[0] + t[1] }
-        return false unless @state[pt[0]][pt[1]] == ""
+        return false unless @state[pt[0]][pt[1]] == "" or pt == ignoring
       end
       return true
     end
