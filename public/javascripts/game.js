@@ -3,6 +3,7 @@ var Game = new function() {
   this.move = [];
 
   this.setup = function() {
+    this.setupPoller();
     this.loopOverBoard(function(i, u, e) {
       e.observe('click', this.onClick.bindAsEventListener(this, i, u));
     });
@@ -65,6 +66,26 @@ var Game = new function() {
     });
     this.moves.push(moveStr);
     this.appendMove(moveStr);
+  };
+
+  this.setupPoller = function() {
+    new PeriodicalExecuter(function() {
+      new Ajax.Request(window.location.pathname + "/" + this.moves.length, {
+        method: 'get', 
+        onSuccess: function(transport) {
+          var moves = transport.responseText.evalJSON();
+          $A(moves).each(function(m) {
+            this.moves.push(m);
+            this.appendMove(m);
+            var move = this.moveStringToArray(m);
+            this.state[move[1][0]][move[1][1]] = this.state[move[0][0]][move[0][1]];
+            this.state[move[0][0]][move[0][1]] = "";
+            this.state[move[2][0]][move[2][1]] = "a";
+            this.renderSpecific(move);
+          }.bind(this));
+        }.bind(this)
+      });
+    }.bind(this), 3);
   };
 
   // ===== Rendering =====
@@ -133,7 +154,11 @@ var Game = new function() {
   };
 
   this.moveStringToArray = function(str) {
-    // TODO: implement me
+    var m = str.match(/([a-j](10|[1-9]))-([a-j](10|[1-9]))\/([a-j](10|[1-9]))/);
+    if (!m) { return; }
+    return $A([1, 3, 5]).map(function(i) {
+      return [10 - parseInt(m[i].substr(1), 10), m[i].charCodeAt(0) - 97];
+    });
   };
 
 };

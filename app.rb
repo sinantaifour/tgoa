@@ -13,6 +13,12 @@ get '/' do
   erb :index
 end
 
+get /\/boards\/(\w+)\/(\d+)/ do |k, r|
+  raise Sinatra::NotFound unless Games::Current.keys.include?(k)
+  @game = Games::Current[k]
+  return (@game.moves[r.to_i..-1] || []).to_json
+end
+
 get /\/boards\/(\w+)/ do |k|
   Games::Current[k] = Games::Game.new unless Games::Current.keys.include?(k)
   @game = Games::Current[k]
