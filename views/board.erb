@@ -1,6 +1,7 @@
 <script src="/javascripts/game.js"></script>
 <script src="/javascripts/user.js"></script>
 
+<div id="moves" style="float: right;"></div>
 <table id="board">
   <% 10.times do |i| %>
     <tr>
@@ -10,11 +11,12 @@
     </tr>
   <% end %>
 </table>
+
 <script>
   Event.observe(window, 'load', function () {
-    Game.setup();
     Game.state = <%= @game.state.to_json %>;
-    Game.render();
+    Game.moves = <%= @game.moves.to_json %>;
+    Game.setup();
     User.color = "w";
   });
 </script>

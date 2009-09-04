@@ -6,11 +6,14 @@ var Game = new function() {
     this.loopOverBoard(function(i, u, e) {
       e.observe('click', this.onClick.bindAsEventListener(this, i, u));
     });
+    $(this.moves).each(function(m) { this.appendMove(m); }.bind(this));
+    this.render();
   };
 
   this.onClick = function(ev, i, u) {
     ev.stop();
     if (!User.color) { return; }
+    if (User.color != this.turn()) { return; }
     if (this.move.length == 0) {
       if (User.color == this.state[i][u]) {
         this.move[0] = [i, u];
@@ -45,14 +48,23 @@ var Game = new function() {
     }
   };
 
+  // ===== Information =====
+
+  this.turn = function() {
+    return this.moves.length % 2 ? "b" : "w";
+  };
+
   // ===== Communication =====
 
   this.sendMove = function() {
     // TODO: need to deal with errors
+    var moveStr = this.moveArrayToString(this.move);
     new Ajax.Request(window.location.pathname, {
       method: 'post',
-      parameters: {'move': this.moveArrayToString(this.move), 'ie': (new Date()).getTime()}
+      parameters: {'move': moveStr, 'ie': (new Date()).getTime()}
     });
+    this.moves.push(moveStr);
+    this.appendMove(moveStr);
   };
 
   // ===== Rendering =====
@@ -69,6 +81,10 @@ var Game = new function() {
       var content = this.state[p[0]][p[1]] ? ('<img src="/images/' + this.state[p[0]][p[1]] + '.png" />') : '';
       this.getElement(p[0], p[1]).update(content.toString());
     }.bind(this));
+  };
+
+  this.appendMove = function(move) {
+    $("moves").insert(move + "<br />");
   };
 
   this.markLegal = function(i, u) {
