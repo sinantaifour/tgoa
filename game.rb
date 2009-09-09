@@ -8,6 +8,7 @@ module Games
 
     attr_reader :state # First coordinate for rows, second for columns, state[0][0] represents the upper left corner.
     attr_reader :turn, :moves
+    attr_accessor :white_exists, :black_exists
 
     def initialize
       @state = (0..9).map { (0..9).map { "" } }

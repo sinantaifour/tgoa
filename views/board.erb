@@ -21,6 +21,8 @@
     Game.state = <%= @game.state.to_json %>;
     Game.moves = <%= @game.moves.to_json %>;
     Game.setup();
-    User.color = "w";
+    <% if ! @visitor %>
+      User.color = "<%= @player %>";
+    <% end %>
   });
 </script>

@@ -4,8 +4,6 @@ require 'erb'
 require 'game'
 require 'json'
 
-# Just a comment to test Github push, If this comment is removed the black player will always lose the game :P
-
 Games::Current[nil] = Games::Game.new
 
 get '/' do
@@ -22,6 +20,23 @@ end
 get /\/boards\/(\w+)/ do |k|
   Games::Current[k] = Games::Game.new unless Games::Current.keys.include?(k)
   @game = Games::Current[k]
+  
+  @visitor = false
+  @player = "visitor"
+  if ! @game.white_exists || request.cookies["game#{k}"] == "w"
+    @player = "w"
+    set_cookie("game#{k}", "w")
+    @game.white_exists = true
+
+  elsif ! @game.black_exists || request.cookies["game#{k}"] == "b"
+    @player = "b"
+    set_cookie("game#{k}", "b")
+    @game.black_exists = true
+
+  else
+    @visitor = true
+  end
+  
   erb :board
 end
 
