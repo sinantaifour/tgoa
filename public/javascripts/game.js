@@ -9,6 +9,7 @@ var Game = new function() {
     });
     $(this.moves).each(function(m) { this.appendMove(m); }.bind(this));
     this.render();
+    this.updateTurnLabel();
   };
 
   this.onClick = function(ev, i, u) {
@@ -54,6 +55,11 @@ var Game = new function() {
   this.turn = function() {
     return this.moves.length % 2 ? "b" : "w";
   };
+  
+  this.updateTurnLabel = function() {
+    //alert(this.turn());
+    $('turn_label').innerHTML = "Turn : " + (this.turn() == "w" ? "White" : "Black" )
+  };
 
   // ===== Communication =====
 
@@ -66,6 +72,7 @@ var Game = new function() {
     });
     this.moves.push(moveStr);
     this.appendMove(moveStr);
+    this.updateTurnLabel();
   };
 
   this.setupPoller = function() {
@@ -83,6 +90,7 @@ var Game = new function() {
             this.state[move[2][0]][move[2][1]] = "a";
             this.renderSpecific(move);
           }.bind(this));
+          $('turn_label').innerHTML = "Turn : " + (this.turn() == "w" ? "White" : "Black" ); // When I tried to write (this.updateTurnLabel) here instead of this line, it didn't work. can you explain why ???!!!
         }.bind(this)
       });
     }.bind(this), 3);

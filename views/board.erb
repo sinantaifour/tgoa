@@ -16,6 +16,15 @@
   <% end %>
 </table>
 
+<div>
+  <% if @visitor %>
+    You are a visitor
+  <% else %>
+    <p> You play : <%= @player == "w" ? "White" : "Black" %> </p>
+    <p id="turn_label"> </p>
+  <% end %>
+</div>
+
 <script>
   Event.observe(window, 'load', function () {
     Game.state = <%= @game.state.to_json %>;
