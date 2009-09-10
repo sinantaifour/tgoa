@@ -90,7 +90,7 @@ var Game = new function() {
             this.state[move[2][0]][move[2][1]] = "a";
             this.renderSpecific(move);
           }.bind(this));
-          $('turn_label').innerHTML = "Turn : " + (this.turn() == "w" ? "White" : "Black" ); // When I tried to write (this.updateTurnLabel) here instead of this line, it didn't work. can you explain why ???!!!
+          this.updateTurnLabel();
         }.bind(this)
       });
     }.bind(this), 3);
