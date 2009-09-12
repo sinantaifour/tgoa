@@ -17,12 +17,12 @@
 </table>
 
 <div>
-  <% if @visitor %>
-    You are a visitor
-  <% else %>
+  <% if @player %>
     <p> You play : <%= @player == "w" ? "White" : "Black" %> </p>
-    <p id="turnLabel"> </p>
+  <% else %>
+    You are a visitor
   <% end %>
+  <p id="turnLabel"> </p>
 </div>
 
 <script>

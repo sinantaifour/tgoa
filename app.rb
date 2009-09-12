@@ -20,23 +20,20 @@ end
 get /\/boards\/(\w+)/ do |k|
   Games::Current[k] = Games::Game.new unless Games::Current.keys.include?(k)
   @game = Games::Current[k]
-  
-  @visitor = false
-  @player = "visitor"
-  if ! @game.white_exists || request.cookies["game#{k}"] == "w"
-    @player = "w"
-    set_cookie("game#{k}", "w")
-    @game.white_exists = true
 
-  elsif ! @game.black_exists || request.cookies["game#{k}"] == "b"
-    @player = "b"
-    set_cookie("game#{k}", "b")
-    @game.black_exists = true
-
+  # TODO: move this to a helper
+  if request.cookies["identifier"]
+    identifier = request.cookies["identifier"]
   else
-    @visitor = true
+    identifier = (rand * 10 ** 10).to_i.to_s(36)
+    response.set_cookie("identifier", identifier)
   end
-  
+
+  @player = @game.players[identifier]
+  if @player.nil? and @game.players.values.compact.length < 2
+    @player = @game.players[identifier] = (["w", "b"] - @game.players.values.compact).first
+  end
+
   erb :board
 end
 

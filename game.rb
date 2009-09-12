@@ -8,7 +8,7 @@ module Games
 
     attr_reader :state # First coordinate for rows, second for columns, state[0][0] represents the upper left corner.
     attr_reader :turn, :moves
-    attr_accessor :white_exists, :black_exists
+    attr_accessor :players
 
     def initialize
       @state = (0..9).map { (0..9).map { "" } }
@@ -16,6 +16,7 @@ module Games
       [[6, 0], [6, 9], [9, 3], [9, 6]].each { |t| @state[t[0]][t[1]] = "w" }
       @turn = :white
       @moves = []
+      @players = {}
     end
 
     def play(move_str, color)
