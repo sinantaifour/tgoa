@@ -57,8 +57,7 @@ var Game = new function() {
   };
   
   this.updateTurnLabel = function() {
-    //alert(this.turn());
-    $('turn_label').innerHTML = "Turn : " + (this.turn() == "w" ? "White" : "Black" )
+    $('turnLabel').innerHTML = "Turn : " + (this.turn() == "w" ? "White" : "Black" )
   };
 
   // ===== Communication =====
