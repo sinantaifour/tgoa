@@ -12,7 +12,7 @@ var Game = new function() {
     this.updateTurnLabel();
   };
 
-  this.onClick = function(ev, i, u) {
+  this.onClick = function(ev, i, u) { // TODO: cleanup
     ev.stop();
     if (!User.color) { return; }
     if (User.color != this.turn()) { return; }
@@ -54,10 +54,6 @@ var Game = new function() {
 
   this.turn = function() {
     return this.moves.length % 2 ? "b" : "w";
-  };
-  
-  this.updateTurnLabel = function() {
-    $('turnLabel').innerHTML = "Turn : " + (this.turn() == "w" ? "White" : "Black" )
   };
 
   // ===== Communication =====
@@ -136,6 +132,10 @@ var Game = new function() {
         e.update("");
       }
     });
+  };
+
+  this.updateTurnLabel = function() {
+    $('turnLabel').update("Turn : " + (this.turn() == "w" ? "White" : "Black" ));
   };
 
   // ===== Helpers =====
