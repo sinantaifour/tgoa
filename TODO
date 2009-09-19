@@ -1,0 +1,10 @@
+- Rewrite game.js; it is getting pretty messy, especially the code related to 
+  moves.
+- Apply the animations to move I do, not only the ones I get from the server
+- Have new graphics for the arrows that emphasize it is a territory game, like
+  stone walls.
+- Create a general layout for the website
+- Authenticate users when they play a move
+- Let users choose to be either white or black (or just viewers)
+- Allow users to leave
+- Auto-leave users if they don't poll for a particular time
