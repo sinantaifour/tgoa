@@ -80,10 +80,7 @@ var Game = new function() {
             this.moves.push(m);
             this.appendMove(m);
             var move = this.moveStringToArray(m);
-            this.state[move[1][0]][move[1][1]] = this.state[move[0][0]][move[0][1]];
-            this.state[move[0][0]][move[0][1]] = "";
-            this.state[move[2][0]][move[2][1]] = "a";
-            this.renderSpecific(move);
+            this.animateMove(move);
           }.bind(this));
           this.updateTurnLabel();
         }.bind(this)
@@ -109,6 +106,34 @@ var Game = new function() {
 
   this.appendMove = function(move) {
     $("moves").insert(move + "<br />");
+  };
+
+  this.animateMove = function(move) {
+    this.state[move[1][0]][move[1][1]] = this.state[move[0][0]][move[0][1]];
+    this.state[move[0][0]][move[0][1]] = "";
+    this.state[move[2][0]][move[2][1]] = "a";
+    var img = this.getElement(move[0][0], move[0][1]).childNodes[0];
+    img.setStyle({'position': 'relative'});
+    var dirs = {};
+    if (move[0][0] != move[1][0]) {
+      dirs['top'] = [0, (move[1][0] - move[0][0]) * 44];
+    }
+    if (move[0][1] != move[1][1]) {
+      dirs['left'] = [0, (move[1][1] - move[0][1]) * 44];
+    }
+    (new Fx.Styles(img, {
+      transition: Fx.Transitions.quadOut,
+      onComplete: function() {
+        this.renderSpecific([move[0], move[1]]);
+        var img = this.getElement(move[2][0], move[2][1]).update('<img src="/images/a.png" />').childNodes[0];
+        (new Fx.Opacity(img, {
+          transition: Fx.Transitions.quadOut,
+          onComplete: function() {
+            this.renderSpecific([move[2]]);
+          }.bind(this)
+        })).set(0).toggle();
+      }.bind(this)
+    })).custom(dirs);
   };
 
   this.markLegal = function(i, u) {
