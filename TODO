@@ -6,6 +6,14 @@
 - Create a general layout for the website
 - Authenticate users when they play a move
 - Let users choose to be either white or black (or just viewers)
-- Allow users to leave
 - Auto-leave users if they don't poll for a particular time
 - Adding Sounds
+
+Sinan
+=====
+- Do a basic markup
+- Allow users to leave, and choose where to join
+
+Omar
+====
+- Move some TODOs to here
