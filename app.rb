@@ -7,8 +7,12 @@ require 'json'
 Games::Current[nil] = Games::Game.new
 
 get '/' do
-  @next_game = (rand * 10 ** 10).to_i.to_s(36) while Games::Current.keys.include?(@next_game)
   erb :index
+end
+
+get '/boards/new' do
+  next_game = (rand * 10 ** 10).to_i.to_s(36) while Games::Current.keys.include?(next_game)
+  redirect "/boards/#{next_game}"
 end
 
 get /\/boards\/(\w+)\/(\d+)/ do |k, r|
