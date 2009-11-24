@@ -8,12 +8,14 @@
 
 Sinan
 =====
+- General redesign of Javascript (Actively working on it)
 - Do a basic markup
 - Allow users to leave, and choose where to join
 
+
+
 Omar
 ====
-- Move some TODOs to here ( This is easy, I can move them all if you want :P )
-- Apply the animations to move I do, not only the ones I get from the server
+- Apply the animations to move I do, not only the ones I get from the server (Sinan: Please wait on this one till the new JS is in place.)
 - Adding Sounds
 - Create a general layout for the website
