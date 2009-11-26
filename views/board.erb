@@ -15,10 +15,26 @@
   </div>
 </div>
 <table id="board">
-  <% 10.times do |i| %>
+  <% 12.times do |w| %>
+    <% i = w - 1 %>
     <tr>
-      <% 10.times do |u| %>
-        <td class="<%= (i+u) % 2 == 0 ? 'dark' : 'light' %>" id="cell<%= "0#{i}"[0..1] %><%= "0#{u}"[0..1] %>"></td>
+      <% 12.times do |v| %>
+        <% u = v - 1 %>
+        <% if w == 0 or w == 11 %>
+          <td valign="<%= w == 0 ? 'bottom' : 'top' %>" align="center">
+            <% unless v == 0 or v == 11 %>
+              <%= (97 + u).chr %>
+            <% end %>
+          </td>
+        <% elsif v == 0 or v == 11 %>
+          <td align="<%= v == 0 ? 'right' : 'left' %>" valign="middle">
+            <% unless w == 0 or w == 11 %>
+              <%= 10 - i %>
+            <% end %>
+          </td>
+        <% else %>
+          <td class="<%= (i+u) % 2 == 0 ? 'dark' : 'light' %>" id="cell<%= "0#{i}"[0..1] %><%= "0#{u}"[0..1] %>"></td>
+        <% end %>
       <% end %>
     </tr>
   <% end %>

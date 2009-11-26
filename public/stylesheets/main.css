@@ -7,7 +7,7 @@
   border-collapse: collapse;
 }
 
-#board td {
+#board td.dark, #board td.light {
   padding: 5px;
   width: 34px;
   height: 44px;
