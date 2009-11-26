@@ -33,5 +33,5 @@
 }
 
 #players .hasTurn {
-  text-decoration: underline;
+  background-color: yellow;
 }

@@ -1,6 +1,5 @@
 - Have new graphics for the arrows that emphasize it is a territory game, like
   stone walls.
-- Auto-leave users if they don't poll for a particular time
 - Errors can occur in animations if you start moving your piece before the 
   animation of the other player ends.
 

@@ -17,20 +17,20 @@ module Games
       @turn = "w"
       @moves = []
       @players = {}
-      @last_move = {}
+      @last_update = {}
     end
 
     def join(color, identifier)
       @players[color] = identifier
-      @last_move[color] = Time.now
     end
 
     def leave(identifier)
       @players.reject! { |k, v| v == identifier }  
     end
 
-    def cleanup # TODO: might need a lock here
-      @players.reject! { |k, v| @last_move[k] + 120 < Time.now }
+    def housekeeping(identifier) # TODO: might need a lock here
+      @players.reject! { |k, v| @last_update[k] and (@last_update[k] + 20 < Time.now) }
+      @players.each { |k, v| @last_update[k] = Time.now if v == identifier }
     end
 
     def play(move_str, color)

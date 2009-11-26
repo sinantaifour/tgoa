@@ -31,6 +31,7 @@ get /\/boards\/(\w+)$/ do |k|
   Games::Current[k] = Games::Game.new unless Games::Current.keys.include?(k)
   @game = Games::Current[k]
   @identifier = identifier
+  @game.housekeeping(@identifier)
   erb :board
 end
 
@@ -45,7 +46,7 @@ end
 get /\/boards\/(\w+)\/(\d+)/ do |k, r| # TODO: a hash is sent at each request. Only send when necessary
   raise Sinatra::NotFound unless Games::Current.keys.include?(k)
   @game = Games::Current[k]
-  @game.cleanup
+  @game.housekeeping(identifier)
   moves = @game.moves[r.to_i..-1] || []
   my_color = @game.players.find { |k, v| v == identifier }.to_a[0]
   return {:moves => moves, :players => @game.players.keys, :myColor => my_color}.to_json
