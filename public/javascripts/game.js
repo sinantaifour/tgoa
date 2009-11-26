@@ -6,9 +6,9 @@ var game = new function() {
     board.loopOverBoard(function(i, u, e) {
       e.observe('click', this.onClick.bindAsEventListener(this, i, u));
     }.bind(this));
-    moves.populateList();
-    this.updateTurnLabel();
     board.render();
+    players.render();
+    moves.populateList();
   };
 
   // ==== Events ====
@@ -17,10 +17,9 @@ var game = new function() {
 
   this.onClick = function(ev, i, u) {
     ev.stop();
-    if (!User.color) { return; }
-    if (User.color != this.turn()) { return; }
+    if (!players.iHaveTurn()) { return; }
     if (move.length == 0) {
-      if (User.color == board.state[i][u]) {
+      if (players.myColor == board.state[i][u]) {
         move[0] = [i, u];
         board.clearMarks();
         board.markLegal(i, u);
@@ -29,7 +28,7 @@ var game = new function() {
       if (move[0][0] == i && move[0][1] == u) {
         move.clear();
         board.clearMarks();
-      } else if (board.state[i][u] == User.color) {
+      } else if (board.state[i][u] == players.myColor) {
         move[0] = [i, u];
         board.clearMarks();
         board.markLegal(i, u);
@@ -49,16 +48,10 @@ var game = new function() {
         });
         this.sendMove(move);
         moves.appendMove(moves.moveArrayToString(move));
-        this.updateTurnLabel();
+        players.render();
         move.clear();
       }
     }
-  };
-
-  // ===== Information =====
-
-  this.turn = function() {
-    return moves.size() % 2 ? "b" : "w";
   };
 
   // ===== Communication =====
@@ -87,13 +80,9 @@ var game = new function() {
     $A(responseText.evalJSON()).each(function(m) {
       moves.appendMove(m, true);
     }.bind(this));
-    this.updateTurnLabel();
+    players.render();
   };
 
   // ===== Rendering =====
-
-  this.updateTurnLabel = function() { // TODO: move elsewhere?
-    $('turnLabel').update("Turn : " + (this.turn() == "w" ? "White" : "Black" ));
-  };
 
 };

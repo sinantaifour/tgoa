@@ -6,6 +6,18 @@ require 'json'
 
 Games::Current[nil] = Games::Game.new
 
+helpers do 
+  def identifier
+    if request.cookies["identifier"]
+      res = request.cookies["identifier"]
+    else
+      res = (rand * 10 ** 10).to_i.to_s(36)
+      response.set_cookie("identifier", res)
+    end
+    res
+  end
+end
+
 get '/' do
   erb :index
 end
@@ -15,37 +27,30 @@ get '/boards/new' do
   redirect "/boards/#{next_game}"
 end
 
+get /\/boards\/(\w+)$/ do |k|
+  Games::Current[k] = Games::Game.new unless Games::Current.keys.include?(k)
+  @game = Games::Current[k]
+  @identifier = identifier
+  erb :board
+end
+
+post /\/boards\/(\w+)$/ do |k|
+  raise Sinatra::NotFound unless Games::Current.keys.include?(k)
+  @game = Games::Current[k]
+  @player = @game.players.find { |k, v| v == identifier }.to_a[0]
+  @game.play(params[:move], @player)
+  return ""
+end
+
 get /\/boards\/(\w+)\/(\d+)/ do |k, r|
   raise Sinatra::NotFound unless Games::Current.keys.include?(k)
   @game = Games::Current[k]
   return (@game.moves[r.to_i..-1] || []).to_json
 end
 
-get /\/boards\/(\w+)/ do |k|
-  Games::Current[k] = Games::Game.new unless Games::Current.keys.include?(k)
-  @game = Games::Current[k]
-
-  # TODO: move this to a helper
-  if request.cookies["identifier"]
-    identifier = request.cookies["identifier"]
-  else
-    identifier = (rand * 10 ** 10).to_i.to_s(36)
-    response.set_cookie("identifier", identifier)
-  end
-
-  @player = @game.players[identifier]
-  if @player.nil? and @game.players.values.compact.length < 2
-    @player = @game.players[identifier] = (["w", "b"] - @game.players.values.compact).first
-  end
-
-  erb :board
-end
-
-post /\/boards\/(\w+)/ do |k|
-  # TODO: authenticate the user
-  # TODO: need to deal with possible exceptions
+get /\/boards\/(\w+)\/join\/(w|b)/ do |k, c| # TODO: can't join in both places, can't join if alreayd joined
   raise Sinatra::NotFound unless Games::Current.keys.include?(k)
   @game = Games::Current[k]
-  @game.play(params[:move], @game.turn) # TODO: assumes correct color always, fix with user authentication
+  @game.players[c] = identifier
   return ""
 end

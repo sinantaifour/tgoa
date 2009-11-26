@@ -14,27 +14,27 @@ module Games
       @state = (0..9).map { (0..9).map { "" } }
       [[0, 3], [0, 6], [3, 0], [3, 9]].each { |t| @state[t[0]][t[1]] = "b" }
       [[6, 0], [6, 9], [9, 3], [9, 6]].each { |t| @state[t[0]][t[1]] = "w" }
-      @turn = :white
+      @turn = "w"
       @moves = []
       @players = {}
     end
 
     def play(move_str, color)
+      # Check turn
+      raise GameError, "Incorrect player turn" unless @turn == color
       # Parse string
       raise GameError, "Must pass move" unless move_str
       raise GameError, "Unable to parse move string" unless m = move_str.downcase.match(/([a-j](10|[1-9]))-([a-j](10|[1-9]))\/([a-j](10|[1-9]))/)
       move = [1, 3, 5].map { |i| [10 - m[i][1..-1].to_i, m[i][0] - ?a] } # move here contains an array of 3 points, with coordinates suitable for state.
-      # Check turn
-      raise GameError, "Incorrect player turn" unless @turn == color
       # Check move
-      raise GameError, "Incorrect beginning of move" unless @state[move[0][0]][move[0][1]] == @turn.to_s.slice(0, 1)
+      raise GameError, "Incorrect beginning of move" unless @state[move[0][0]][move[0][1]] == @turn
       raise GameError, "Invalid move" unless valid_pair(move[0], move[1]) and valid_pair(move[1], move[2], move[0])
       # Apply move
       @state[move[1][0]][move[1][1]] = @state[move[0][0]][move[0][1]]
       @state[move[0][0]][move[0][1]] = ""
       @state[move[2][0]][move[2][1]] = "a"
       @moves << move_str
-      @turn = ([:black, :white] - [@turn]).first
+      @turn = (["b", "w"] - [@turn]).first
     end
 
     private

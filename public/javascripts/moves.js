@@ -34,7 +34,7 @@ var moves = new function() {
   };
 
   this.populateList = function() {
-    $("moves").update($A(this.movesArray).map(function(m) { return m + "<br />" }));
+    $("moves").update($A(this.movesArray).map(function(m) { return m + "<br />" }).join(""));
   };
 
 };
