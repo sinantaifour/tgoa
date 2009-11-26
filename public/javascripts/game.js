@@ -77,9 +77,12 @@ var game = new function() {
   };
 
   this.updated = function(responseText)  { // (rewritten)
-    $A(responseText.evalJSON()).each(function(m) {
+    var res = responseText.evalJSON()
+    $A(res['moves']).each(function(m) {
       moves.appendMove(m, true);
     }.bind(this));
+    players.info = res['players'];
+    players.myColor = res['myColor'];
     players.render();
   };
 

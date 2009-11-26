@@ -45,7 +45,9 @@ end
 get /\/boards\/(\w+)\/(\d+)/ do |k, r|
   raise Sinatra::NotFound unless Games::Current.keys.include?(k)
   @game = Games::Current[k]
-  return (@game.moves[r.to_i..-1] || []).to_json
+  moves = @game.moves[r.to_i..-1] || []
+  my_color = @game.players.find { |k, v| v == identifier }.to_a[0]
+  return {:moves => moves, :players => @game.players.keys, :myColor => my_color}.to_json
 end
 
 get /\/boards\/(\w+)\/join\/(w|b)/ do |k, c| # TODO: can't join in both places, can't join if alreayd joined
