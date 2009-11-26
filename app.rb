@@ -45,6 +45,7 @@ end
 get /\/boards\/(\w+)\/(\d+)/ do |k, r| # TODO: a hash is sent at each request. Only send when necessary
   raise Sinatra::NotFound unless Games::Current.keys.include?(k)
   @game = Games::Current[k]
+  @game.cleanup
   moves = @game.moves[r.to_i..-1] || []
   my_color = @game.players.find { |k, v| v == identifier }.to_a[0]
   return {:moves => moves, :players => @game.players.keys, :myColor => my_color}.to_json
@@ -53,13 +54,13 @@ end
 get /\/boards\/(\w+)\/join\/(w|b)/ do |k, c| # TODO: can't join in both places, can't join if alreayd joined
   raise Sinatra::NotFound unless Games::Current.keys.include?(k)
   @game = Games::Current[k]
-  @game.players[c] = identifier
+  @game.join(c, identifier)
   return ""
 end
 
 get /\/boards\/(\w+)\/leave/ do |k|
   raise Sinatra::NotFound unless Games::Current.keys.include?(k)
   @game = Games::Current[k]
-  @game.players.reject! { |k, v| v == identifier }  
+  @game.leave(identifier)
   return ""
 end

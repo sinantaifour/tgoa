@@ -17,6 +17,20 @@ module Games
       @turn = "w"
       @moves = []
       @players = {}
+      @last_move = {}
+    end
+
+    def join(color, identifier)
+      @players[color] = identifier
+      @last_move[color] = Time.now
+    end
+
+    def leave(identifier)
+      @players.reject! { |k, v| v == identifier }  
+    end
+
+    def cleanup # TODO: might need a lock here
+      @players.reject! { |k, v| @last_move[k] + 120 < Time.now }
     end
 
     def play(move_str, color)
@@ -34,6 +48,7 @@ module Games
       @state[move[0][0]][move[0][1]] = ""
       @state[move[2][0]][move[2][1]] = "a"
       @moves << move_str
+      @last_move[color] = Time.now
       @turn = (["b", "w"] - [@turn]).first
     end
 
