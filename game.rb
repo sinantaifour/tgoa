@@ -22,6 +22,7 @@ module Games
 
     def join(color, identifier)
       @players[color] = identifier
+      @last_update.delete(color)
     end
 
     def leave(identifier)
@@ -48,7 +49,6 @@ module Games
       @state[move[0][0]][move[0][1]] = ""
       @state[move[2][0]][move[2][1]] = "a"
       @moves << move_str
-      @last_move[color] = Time.now
       @turn = (["b", "w"] - [@turn]).first
     end
 

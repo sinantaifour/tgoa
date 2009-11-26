@@ -30,11 +30,31 @@ var moves = new function() {
         board.setCell(m[2][0], m[2][1], "a");
       });
     }
-    $("moves").insert(str + "<br />");
+    this.addToMovesList(str);
+  };
+
+  this.addToMovesList = function(str) {
+    var div = new Element("div");
+    div.innerHTML = str;
+    div.observe("mouseover", function(ev) {
+      var m = this.moveStringToArray(str);
+      board.cells[m[0][0]][m[0][1]].addClassName("highlightedCell");
+      board.cells[m[1][0]][m[1][1]].addClassName("highlightedCell");
+      board.cells[m[2][0]][m[2][1]].addClassName("highlightedCell");
+      ev.stop();
+    }.bind(this));
+    div.observe("mouseout", function(ev) {
+      $$(".highlightedCell").invoke("removeClassName", "highlightedCell");
+      ev.stop();
+    });
+    $("moves").insert(div);
   };
 
   this.populateList = function() {
-    $("moves").update($A(this.movesArray).map(function(m) { return m + "<br />" }).join(""));
+    $("moves").update("");
+    $A(this.movesArray).each(function(m) {
+      this.addToMovesList(m);
+    }.bind(this));
   };
 
 };
