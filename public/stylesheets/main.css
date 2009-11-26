@@ -31,3 +31,7 @@
   padding: 10px;
   float: right;
 }
+
+#players .hasTurn {
+  text-decoration: underline;
+}

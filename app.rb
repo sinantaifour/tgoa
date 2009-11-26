@@ -42,7 +42,7 @@ post /\/boards\/(\w+)$/ do |k|
   return ""
 end
 
-get /\/boards\/(\w+)\/(\d+)/ do |k, r|
+get /\/boards\/(\w+)\/(\d+)/ do |k, r| # TODO: a hash is sent at each request. Only send when necessary
   raise Sinatra::NotFound unless Games::Current.keys.include?(k)
   @game = Games::Current[k]
   moves = @game.moves[r.to_i..-1] || []
@@ -54,5 +54,12 @@ get /\/boards\/(\w+)\/join\/(w|b)/ do |k, c| # TODO: can't join in both places, 
   raise Sinatra::NotFound unless Games::Current.keys.include?(k)
   @game = Games::Current[k]
   @game.players[c] = identifier
+  return ""
+end
+
+get /\/boards\/(\w+)\/leave/ do |k|
+  raise Sinatra::NotFound unless Games::Current.keys.include?(k)
+  @game = Games::Current[k]
+  @game.players.reject! { |k, v| v == identifier }  
   return ""
 end

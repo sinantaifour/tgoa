@@ -8,27 +8,47 @@ var players = new function() {
     $A(["w", "b"]).each(function(c) {
       if (this.info.include(c)) {
         if (this.myColor == c) {
-          content = "You";
+          content = new Element("a");
+          content.href = "#";
+          content.innerHTML = "(Leave)";
+          content.observe("click", function(ev) {
+            new Ajax.Request(window.location.pathname + "/leave", {
+              method: 'get'
+            });
+            $("player" + c).update("...");
+            ev.stop();
+          });
         } else {
-          content = "Someone";
+          content = "Occupied";
         }
       } else {
-        content = new Element("a");
-        content.href = "#";
-        content.innerHTML = "(Join)";
-        content.observe("click", function(ev){
-          new Ajax.Request(window.location.pathname + "/join/" + c, {
-            method: 'get'
+        if (this.myColor) {
+          content = "Empty";
+        } else {
+          content = new Element("a");
+          content.href = "#";
+          content.innerHTML = "(Join)";
+          content.observe("click", function(ev){
+            new Ajax.Request(window.location.pathname + "/join/" + c, {
+              method: 'get'
+            });
+            $("player" + c).update("...");
+            ev.stop();
           });
-          ev.stop();
-        });
+        }
       }
       $("player" + c).update(content);
     }.bind(this));
+    $$("#players .hasTurn").invoke("removeClassName", "hasTurn");
+    $("player" + this.turn()).addClassName("hasTurn");
   };
 
   this.iHaveTurn = function() {
-    return this.myColor && (this.myColor == (moves.size() % 2 ? "b" : "w"));
+    return this.myColor && (this.myColor == this.turn());
+  };
+
+  this.turn = function() {
+    return (moves.size() % 2 ? "b" : "w");
   };
 
 };
