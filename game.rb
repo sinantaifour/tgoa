@@ -8,6 +8,7 @@ module Games
 
     attr_reader :state # First coordinate for rows, second for columns, state[0][0] represents the upper left corner.
     attr_reader :turn, :moves
+    attr_accessor :is_over # The game is ended externally
     attr_accessor :players
 
     def initialize
@@ -18,6 +19,7 @@ module Games
       @moves = []
       @players = {}
       @last_update = {}
+      @is_over = false
     end
 
     def join(color, identifier)
@@ -35,6 +37,7 @@ module Games
     end
 
     def play(move_str, color)
+      raise GameError, "Game is over" if @is_over
       # Check turn
       raise GameError, "Incorrect player turn" unless @turn == color
       # Parse string
@@ -50,6 +53,23 @@ module Games
       @state[move[2][0]][move[2][1]] = "a"
       @moves << move_str
       @turn = (["b", "w"] - [@turn]).first
+    end
+
+    def who_won?
+      regions = regionize
+      tally = {"w" => 0, "b" => 0}
+      regions.each do |r|
+        return false if r["w"] > 0 and r["b"] > 0
+        tally["w"] += r[""] if r["w"] > 0
+        tally["b"] += r[""] if r["b"] > 0
+      end
+      if tally["w"] > tally["b"]
+        "w"
+      elsif tally["b"] > tally["w"]
+        "b"
+      else
+        ["w", "b"] - [@turn]
+      end
     end
 
     private
@@ -69,6 +89,42 @@ module Games
         return false unless @state[pt[0]][pt[1]] == "" or pt == ignoring
       end
       return true
+    end
+
+    # Divides the board into a set of totally separate regions. Returns an array
+    # of hashes, each hash counts the instances of piece in that region.
+    def regionize
+      empty = (0..9).map { |i| (0..9).map { |u| [i, u] } }.flatten(1).reject { |(i, u)| @state[i][u] == "a" }.inject({}) { |h, e| h[e] = true; h }
+      regions = []
+      until empty.keys.empty? do
+        region = {"" => 0, "w" => 0, "b" => 0}
+        to_check = []
+        to_check << empty.keys[0]
+        empty.delete(to_check.last)
+        until to_check.empty? do
+          current_cell = to_check.pop
+          temp = neighbors(current_cell).select { |p| empty[p] }
+          temp.each { |p| empty.delete(p) }
+          to_check.concat(temp)
+          region[@state[current_cell[0]][current_cell[1]]] += 1
+        end
+        regions << region
+      end
+      regions
+    end
+
+    # Give a point, this function returns and array of points that are inside
+    # the board.
+    def neighbors(p)
+      [-1, 0, 1].inject([]) do |res, i|
+        [-1, 0, 1].inject(res) do |res, u|
+          next res if i == 0 and u == 0
+          if p[0] + i >= 0 and p[0] + i <= 9 and p[1] + u >= 0 and p[1] + u <= 9
+            res << [p[0] + i, p[1] + u]
+          end
+          res
+        end
+      end
     end
 
   end
