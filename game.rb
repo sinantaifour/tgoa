@@ -55,23 +55,8 @@ module Games
       @turn = (["b", "w"] - [@turn]).first
     end
 
-    def who_won? # TODO: doesn't take into consideration if one player can't move while the region is closed by an amazon, not an arrow.
-      @winner = begin
-        regions = regionize
-        tally = {"w" => 0, "b" => 0}
-        regions.each do |r|
-          return nil if r["w"] > 0 and r["b"] > 0
-          tally["w"] += r[""] if r["w"] > 0
-          tally["b"] += r[""] if r["b"] > 0
-        end
-        if tally["w"] > tally["b"]
-          "w"
-        elsif tally["b"] > tally["w"]
-          "b"
-        else
-          ["w", "b"] - [@turn]
-        end
-      end
+    def set_winner
+      @winner = who_won?
     end
 
     private
@@ -126,6 +111,36 @@ module Games
           end
           res
         end
+      end
+    end
+
+    def who_won?
+      # Check out if any player can't do moves anymore
+      positions = (0..9).inject({"w" => [], "b" => []}) do |ha, i|
+        (0..9).inject(ha) do |h, u|
+          h[@state[i][u]] << [i, u] if ["w", "b"].include?(@state[i][u])
+          h
+        end
+      end
+      ["w", "b"].each do |c|
+        if positions[c].map { |p| neighbors(p) }.flatten(1).select { |p| @state[p[0]][p[1]] == "" }.empty?
+          return (["w", "b"] - [c]).first
+        end
+      end
+      # Check out if the game is divided into clear regions ending the game
+      regions = regionize
+      tally = {"w" => 0, "b" => 0}
+      regions.each do |r|
+        return nil if r["w"] > 0 and r["b"] > 0
+        tally["w"] += r[""] if r["w"] > 0
+        tally["b"] += r[""] if r["b"] > 0
+      end
+      if tally["w"] > tally["b"]
+        "w"
+      elsif tally["b"] > tally["w"]
+        "b"
+      else
+        ["w", "b"] - [@turn]
       end
     end
 
