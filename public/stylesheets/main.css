@@ -44,3 +44,11 @@
 #players .hasTurn {
   background-color: #ffff82;
 }
+
+#players .playerWinner {
+  background-color: #7aff7a;
+}
+
+#players .playerLoser {
+  background-color: #ff7070;
+}

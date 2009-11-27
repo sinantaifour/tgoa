@@ -84,6 +84,7 @@ var game = new function() {
     players.info = res['players'];
     players.myColor = res['myColor'];
     players.render();
+    players.winner = res['winner'];
   };
 
   // ===== Rendering =====

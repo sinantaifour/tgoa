@@ -2,6 +2,7 @@ var players = new function() {
 
   this.info;
   this.myColor;
+  this.winner;
 
   this.render = function() {
     var content;
@@ -40,15 +41,20 @@ var players = new function() {
       $("player" + c).update(content);
     }.bind(this));
     $$("#players .hasTurn").invoke("removeClassName", "hasTurn");
-    $("player" + this.turn()).addClassName("hasTurn");
+    if (this.winner) {
+      $("player" + this.winner).addClassName("playerWinner");
+      $("player" + $A(["w", "b"]).without(this.winner).first()).addClassName("playerLoser");
+    } else {
+      $("player" + this.turn()).addClassName("hasTurn");
+    }
   };
 
   this.iHaveTurn = function() {
-    return this.myColor && (this.myColor == this.turn());
+    return !this.winner && this.myColor && (this.myColor == this.turn());
   };
 
   this.turn = function() {
-    return (moves.size() % 2 ? "b" : "w");
+    return this.winner ? "" : (moves.size() % 2 ? "b" : "w");
   };
 
 };

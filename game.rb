@@ -8,7 +8,7 @@ module Games
 
     attr_reader :state # First coordinate for rows, second for columns, state[0][0] represents the upper left corner.
     attr_reader :turn, :moves
-    attr_accessor :is_over # The game is ended externally
+    attr_reader :winner
     attr_accessor :players
 
     def initialize
@@ -19,7 +19,7 @@ module Games
       @moves = []
       @players = {}
       @last_update = {}
-      @is_over = false
+      @winner = nil
     end
 
     def join(color, identifier)
@@ -37,7 +37,7 @@ module Games
     end
 
     def play(move_str, color)
-      raise GameError, "Game is over" if @is_over
+      raise GameError, "Game is over" if @winner
       # Check turn
       raise GameError, "Incorrect player turn" unless @turn == color
       # Parse string
@@ -55,20 +55,22 @@ module Games
       @turn = (["b", "w"] - [@turn]).first
     end
 
-    def who_won?
-      regions = regionize
-      tally = {"w" => 0, "b" => 0}
-      regions.each do |r|
-        return false if r["w"] > 0 and r["b"] > 0
-        tally["w"] += r[""] if r["w"] > 0
-        tally["b"] += r[""] if r["b"] > 0
-      end
-      if tally["w"] > tally["b"]
-        "w"
-      elsif tally["b"] > tally["w"]
-        "b"
-      else
-        ["w", "b"] - [@turn]
+    def who_won? # TODO: doesn't take into consideration if one player can't move while the region is closed by an amazon, not an arrow.
+      @winner = begin
+        regions = regionize
+        tally = {"w" => 0, "b" => 0}
+        regions.each do |r|
+          return nil if r["w"] > 0 and r["b"] > 0
+          tally["w"] += r[""] if r["w"] > 0
+          tally["b"] += r[""] if r["b"] > 0
+        end
+        if tally["w"] > tally["b"]
+          "w"
+        elsif tally["b"] > tally["w"]
+          "b"
+        else
+          ["w", "b"] - [@turn]
+        end
       end
     end
 

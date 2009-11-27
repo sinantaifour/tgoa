@@ -40,6 +40,7 @@ post /\/boards\/(\w+)$/ do |k|
   @game = Games::Current[k]
   @player = @game.players.find { |k, v| v == identifier }.to_a[0]
   @game.play(params[:move], @player)
+  @game.who_won?
   return ""
 end
 
@@ -49,7 +50,7 @@ get /\/boards\/(\w+)\/(\d+)/ do |k, r| # TODO: a hash is sent at each request. O
   @game.housekeeping(identifier)
   moves = @game.moves[r.to_i..-1] || []
   my_color = @game.players.find { |k, v| v == identifier }.to_a[0]
-  return {:moves => moves, :players => @game.players.keys, :myColor => my_color}.to_json
+  return {:moves => moves, :players => @game.players.keys, :myColor => my_color, :winner => @game.winner}.to_json
 end
 
 get /\/boards\/(\w+)\/join\/(w|b)/ do |k, c| # TODO: can't join in both places, can't join if alreayd joined
