@@ -19,6 +19,7 @@ helpers do
 end
 
 get '/' do
+  @game_count = Games::Current.keys.length
   erb :index
 end
 
