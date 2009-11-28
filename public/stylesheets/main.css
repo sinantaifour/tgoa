@@ -1,10 +1,8 @@
-* {
-  margin: 0px;
-  padding: 0px;
-}
-
 #board {
-  border-collapse: collapse;
+  border: 1px solid #888;
+  -moz-border-radius: 15px;
+  padding: 15px;
+  margin-top: 20px;
 }
 
 #board td.dark, #board td.light {
@@ -21,7 +19,6 @@
   background-color: #ffff82;
 }
 
-
 #board td.dark {
   background-color: #845931;
 }
@@ -37,8 +34,22 @@
 
 #moves, #players {
   border: 1px solid black;
-  padding: 10px;
   float: right;
+  font-family: Helvetica Narrow, sans-serif;
+  margin: 10px;
+  background-image: url(/images/bg.png);
+  background-repeat: repeat-x;
+  min-height: 100px;
+  min-width: 140px;
+  text-align: center;
+}
+
+.move_item{
+  width: 100%;
+}
+
+.move_item:hover{
+  background-color: #ffff82;
 }
 
 #players .hasTurn {

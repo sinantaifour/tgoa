@@ -1,0 +1,39 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+body{
+  background-color: #845931;
+}
+
+#wrapper{
+  width: 980px;
+  margin: 0 auto;
+  min-height: 700px;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.header{
+  padding: 15px 30px;
+  border-bottom: 1px solid #666;
+  background-color: #EFD7AD;
+}
+
+.logo{
+  font-size: 30px;
+  font-family: Bookman, serif;
+}
+
+.white_space{
+  padding: 10px 30px;
+}
+
+.box_title{
+  color: white;
+  background-color: #845931;
+  text-align: center;
+  margin-bottom: 5px;
+  padding: 3px;
+}

@@ -4,9 +4,17 @@
     <script src="/javascripts/prototype.js"></script>
     <script src="/javascripts/fx.js"></script>
     <link rel="stylesheet" href="/stylesheets/main.css" />
+    <link rel="stylesheet" href="/stylesheets/layout.css" />
   </head>
   <body>
-    <%= yield %>
+    <div id="wrapper">
+      <div class="header">
+        <h1 class="logo"> Territorize.com </h1>
+      </div>
+      <div class="white_space">
+        <%= yield %>
+      </div>
+    </div>
     <script type="text/javascript">
       var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
       document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));

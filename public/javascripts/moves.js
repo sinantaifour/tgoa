@@ -35,6 +35,7 @@ var moves = new function() {
 
   this.addToMovesList = function(str) {
     var div = new Element("div");
+    div.addClassName("move_item");
     div.innerHTML = str;
     div.observe("mouseover", function(ev) {
       var m = this.moveStringToArray(str);
@@ -51,7 +52,7 @@ var moves = new function() {
   };
 
   this.populateList = function() {
-    $("moves").update("");
+    $("moves").update("<p class='box_title'> Movies </p>");
     $A(this.movesArray).each(function(m) {
       this.addToMovesList(m);
     }.bind(this));
