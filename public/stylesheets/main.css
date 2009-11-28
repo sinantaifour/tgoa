@@ -35,7 +35,6 @@
 #moves, #players {
   border: 1px solid black;
   float: right;
-  font-family: Helvetica Narrow, sans-serif;
   margin: 10px;
   background-image: url(/images/bg.png);
   background-repeat: repeat-x;

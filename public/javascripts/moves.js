@@ -52,7 +52,7 @@ var moves = new function() {
   };
 
   this.populateList = function() {
-    $("moves").update("<p class='box_title'> Movies </p>");
+    $("moves").update("<p class='box_title'> Moves </p>");
     $A(this.movesArray).each(function(m) {
       this.addToMovesList(m);
     }.bind(this));
