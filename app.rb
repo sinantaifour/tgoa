@@ -3,6 +3,7 @@ require 'sinatra'
 require 'erb'
 require 'game'
 require 'json'
+require 'safe_code'
 
 Games::Current[nil] = Games::Game.new
 
