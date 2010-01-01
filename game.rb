@@ -5,6 +5,7 @@ module Games
   def self.retrieve(id)
     res = Current[id]
     res ||= Store.get("game_#{id}")
+    Current[id] = res
   end
 
   class GameError < StandardError; end
@@ -16,7 +17,8 @@ module Games
     attr_reader :winner
     attr_accessor :players
 
-    def initialize
+    def initialize(id)
+      @id = id
       @state = (0..9).map { (0..9).map { "" } }
       [[0, 3], [0, 6], [3, 0], [3, 9]].each { |t| @state[t[0]][t[1]] = "b" }
       [[6, 0], [6, 9], [9, 3], [9, 6]].each { |t| @state[t[0]][t[1]] = "w" }
@@ -62,6 +64,15 @@ module Games
 
     def set_winner
       @winner = who_won?
+    end
+
+    (self.instance_methods - Object.new.methods).each do |im|
+      alias_method :"#{im}_old", im.to_sym
+      define_method im.to_sym do |*args|
+        r = send(:"#{im}_old", *args)
+        Store.set("game_#{@id}", self)
+        r
+      end
     end
 
     private
