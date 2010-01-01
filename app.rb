@@ -1,9 +1,10 @@
 require 'rubygems'
 require 'sinatra'
 require 'erb'
-require 'game'
 require 'json'
 require 'safe_code'
+require 'store'
+require 'game'
 
 Games::Current[nil] = Games::Game.new
 

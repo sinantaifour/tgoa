@@ -2,6 +2,11 @@ module Games
 
   Current = {}
 
+  def self.retrieve(id)
+    res = Current[id]
+    res ||= Store.get("game_#{id}")
+  end
+
   class GameError < StandardError; end
 
   class Game

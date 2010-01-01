@@ -21,13 +21,13 @@
       <% 12.times do |v| %>
         <% u = v - 1 %>
         <% if w == 0 or w == 11 %>
-          <td valign="<%= w == 0 ? 'bottom' : 'top' %>" align="center">
+          <td valign="<%= w == 0 ? 'bottom' : 'top' %>" align="center" class="label">
             <% unless v == 0 or v == 11 %>
               <%= (97 + u).chr %>
             <% end %>
           </td>
         <% elsif v == 0 or v == 11 %>
-          <td align="<%= v == 0 ? 'right' : 'left' %>" valign="middle">
+          <td align="<%= v == 0 ? 'right' : 'left' %>" valign="middle" class="label">
             <% unless w == 0 or w == 11 %>
               <%= 10 - i %>
             <% end %>

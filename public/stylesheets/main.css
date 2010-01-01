@@ -52,3 +52,8 @@
 #players .playerLoser {
   background-color: #ff7070;
 }
+
+td.label {
+  color: #aaa;
+  padding: 3px;
+}
