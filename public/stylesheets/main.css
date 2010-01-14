@@ -130,10 +130,10 @@ hr {
   width: 34px;
   height: 34px;
 }
-#moves, #players {
-  border: 1px solid black;
-  padding: 10px;
+#rightPanel {
   float: right;
+  width: 140px;
+  padding: 20px;
 }
 #players .hasTurn {
   background-color: #ffff82;
@@ -147,5 +147,15 @@ hr {
 #board td.label {
   color: #aaa;
   padding: 3px;
+}
+h3 {
+  width: 140px;
+  text-align: center;
+  border-bottom: 1px solid #845931;
+}
+#moves {
+  height: 250px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 /* End of Board Page */

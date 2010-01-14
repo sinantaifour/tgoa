@@ -11,16 +11,21 @@
     <div class="clear"></div>
   </div>
   <div id="pageContent">
-    <div id="moves"></div>
-    <div id="players">
-      <div>
-        White:
-        <span id="playerw"></span>
+    <div id="rightPanel">
+      <h3>Players</h3>
+      <div id="players">
+        <div>
+          White:
+          <span id="playerw"></span>
+        </div>
+        <div>
+          Black:
+          <span id="playerb"></span>
+        </div>
       </div>
-      <div>
-        Black:
-        <span id="playerb"></span>
-      </div>
+      <br />
+      <h3>Moves</h3>
+      <div id="moves"></div>
     </div>
     <table id="board">
       <% 12.times do |w| %>
