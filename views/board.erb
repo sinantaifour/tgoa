@@ -3,42 +3,52 @@
 <script src="/javascripts/board.js"></script>
 <script src="/javascripts/game.js"></script>
 
-<div id="moves"></div>
-<div id="players">
-  <div>
-    White:
-    <span id="playerw"></span>
+<div id="page">
+  <div id="pageHeader">
+    <div id="pageHeaderLeft"></div>
+    <div id="pageHeaderCenter"></div>
+    <div id="pageHeaderRight"></div>
+    <div class="clear"></div>
   </div>
-  <div>
-    Black:
-    <span id="playerb"></span>
+  <div id="pageContent">
+    <div id="moves"></div>
+    <div id="players">
+      <div>
+        White:
+        <span id="playerw"></span>
+      </div>
+      <div>
+        Black:
+        <span id="playerb"></span>
+      </div>
+    </div>
+    <table id="board">
+      <% 12.times do |w| %>
+        <% i = w - 1 %>
+        <tr>
+          <% 12.times do |v| %>
+            <% u = v - 1 %>
+            <% if w == 0 or w == 11 %>
+              <td valign="<%= w == 0 ? 'bottom' : 'top' %>" align="center" class="label">
+                <% unless v == 0 or v == 11 %>
+                  <%= (97 + u).chr %>
+                <% end %>
+              </td>
+            <% elsif v == 0 or v == 11 %>
+              <td align="<%= v == 0 ? 'right' : 'left' %>" valign="middle" class="label">
+                <% unless w == 0 or w == 11 %>
+                  <%= 10 - i %>
+                <% end %>
+              </td>
+            <% else %>
+              <td class="<%= (i+u) % 2 == 0 ? 'dark' : 'light' %>" id="cell<%= "0#{i}"[0..1] %><%= "0#{u}"[0..1] %>"></td>
+            <% end %>
+          <% end %>
+        </tr>
+      <% end %>
+    </table>
   </div>
 </div>
-<table id="board">
-  <% 12.times do |w| %>
-    <% i = w - 1 %>
-    <tr>
-      <% 12.times do |v| %>
-        <% u = v - 1 %>
-        <% if w == 0 or w == 11 %>
-          <td valign="<%= w == 0 ? 'bottom' : 'top' %>" align="center" class="label">
-            <% unless v == 0 or v == 11 %>
-              <%= (97 + u).chr %>
-            <% end %>
-          </td>
-        <% elsif v == 0 or v == 11 %>
-          <td align="<%= v == 0 ? 'right' : 'left' %>" valign="middle" class="label">
-            <% unless w == 0 or w == 11 %>
-              <%= 10 - i %>
-            <% end %>
-          </td>
-        <% else %>
-          <td class="<%= (i+u) % 2 == 0 ? 'dark' : 'light' %>" id="cell<%= "0#{i}"[0..1] %><%= "0#{u}"[0..1] %>"></td>
-        <% end %>
-      <% end %>
-    </tr>
-  <% end %>
-</table>
 
 <script>
   Event.observe(window, 'load', function () {

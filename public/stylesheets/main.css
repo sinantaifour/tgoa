@@ -10,6 +10,7 @@ a, a img {
 body {
   background: url(/images/rays.png) center top no-repeat #efd7ad;
   font-family: Arial, Helvetica;
+  color: #845931;
 }
 
 .clear {
@@ -54,8 +55,7 @@ hr {
 #content { 
   width: 700px;
   margin: auto;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 20px;
 }
 #footer {
   width: 700px;
@@ -66,6 +66,44 @@ hr {
   color: #845931;
 }
 /* End of Main Elements (Header, Content, Footer) */
+
+/* Start of Index Page */
+#index td {
+  width: 340px;
+  vertical-align: top;
+  text-align: center;
+}
+#index td.separator {
+  width: 20px;
+  vertical-align: middle;
+}
+/* End of Index Page */
+
+/* Start of a Standard Page */
+#pageContent {
+  background: url(/images/box-v.png) white center repeat-y;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+#pageHeaderLeft, #pageHeaderCenter, #pageHeaderRight {
+  height: 10px;
+  background-color: white;
+  float: left;
+}
+#pageHeaderLeft, #pageHeaderRight {
+  width: 10px;
+}
+#pageHeaderLeft {
+  background: url(/images/box.png);
+}
+#pageHeaderRight {
+  background: url(/images/box.png) -28px 0px;
+}
+#pageHeaderCenter {
+  width: 680px;
+  background: url(/images/box-h.png);
+}
+/* End of a Standard Page */
 
 /* Start of Board Page */
 #board {
