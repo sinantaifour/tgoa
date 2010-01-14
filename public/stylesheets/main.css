@@ -3,57 +3,84 @@
   padding: 0px;
 }
 
+body {
+  background: url(/images/rays.png) center top no-repeat #efd7ad;
+}
+
+.clear {
+  clear: both;
+}
+
+/* Start of Header */
+#header {
+  width: 700px;
+  margin: auto;
+}
+#headerLeft, #headerCenter, #headerRight {
+  float: left;
+  height: 37px;
+}
+#headerLeft, #headerRight {
+  width: 15px;
+}
+#headerLeft {
+  background: url(/images/box.png) 0px -10px;
+}
+#headerCenter {
+  background-color: white;
+  width: 670px;
+  background: url(/images/box-h.png) 0px -10px;
+}
+#headerRight {
+  background: url(/images/box.png) -23px -10px;
+}
+#headerRightContent {
+  float: right;
+  line-height: 34px;
+}
+/* End of Header */
+
+/* Start of Board Page */
 #board {
   border-collapse: collapse;
 }
-
 #board td.dark, #board td.light {
   padding: 5px;
   width: 34px;
   height: 44px;
 }
-
 #board td.dark.highlightedCell {
   background-color: #ffff82;
 }
-
 #board td.light.highlightedCell {
   background-color: #ffff82;
 }
-
-
 #board td.dark {
   background-color: #845931;
 }
-
 #board td.light {
   background-color: #efd7ad;
 }
-
 #board td img {
   width: 34px;
   height: 34px;
 }
-
 #moves, #players {
   border: 1px solid black;
   padding: 10px;
   float: right;
 }
-
 #players .hasTurn {
   background-color: #ffff82;
 }
-
 #players .playerWinner {
   background-color: #7aff7a;
 }
-
 #players .playerLoser {
   background-color: #ff7070;
 }
-
-td.label {
+#board td.label {
   color: #aaa;
   padding: 3px;
 }
+/* End of Board Page */
