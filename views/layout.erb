@@ -9,7 +9,9 @@
     <div id="header">
       <div id="headerLeft"></div>
       <div id="headerCenter">
-        <img src="/images/logo.png" />
+        <a href="/">
+          <img src="/images/logo.png" />
+        </a>
         <div id="headerRightContent">
           (More)
         </div>
@@ -17,7 +19,13 @@
       <div id="headerRight"></div>
       <div class="clear"></div>
     </div>
-    <%= yield %>
+    <div id="content">
+      <%= yield %>
+    </div>
+    <hr />
+    <div id="footer">
+      Some Rights Reserved. 
+    </div>
     <% if Sinatra::Application.environment == :production %>
       <script type="text/javascript">
         var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");

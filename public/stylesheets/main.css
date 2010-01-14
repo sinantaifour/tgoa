@@ -3,15 +3,28 @@
   padding: 0px;
 }
 
+a, a img {
+  border: none;
+}
+
 body {
   background: url(/images/rays.png) center top no-repeat #efd7ad;
+  font-family: Arial, Helvetica;
 }
 
 .clear {
   clear: both;
 }
 
-/* Start of Header */
+hr {
+  margin: auto;
+  width: 700px;
+  border: none;
+  border-top: 1px solid #845931;
+  border-bottom: 1px solid white;
+}
+
+/* Start of Main Elements (Header, Content, Footer) */
 #header {
   width: 700px;
   margin: auto;
@@ -38,7 +51,21 @@ body {
   float: right;
   line-height: 34px;
 }
-/* End of Header */
+#content { 
+  width: 700px;
+  margin: auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+#footer {
+  width: 700px;
+  text-align: center;
+  font-size: 0.7em;
+  margin: auto;
+  margin-top: 2px;
+  color: #845931;
+}
+/* End of Main Elements (Header, Content, Footer) */
 
 /* Start of Board Page */
 #board {
