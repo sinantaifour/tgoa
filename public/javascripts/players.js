@@ -4,48 +4,48 @@ var players = new function() {
   this.myColor;
   this.winner;
 
+  this.setup = function() {
+    // Setup events
+    $A(["w", "b"]).each(function(c) {
+      $("player" + c).select(".playerLeave")[0].observe("click", function(ev) {
+        new Ajax.Request(window.location.pathname + "/leave", {
+          method: 'get'
+        });
+        $("player" + c).select(".playerLoading")[0].show();
+        ev.stop();
+      });
+      $("player" + c).select(".playerJoin")[0].observe("click", function(ev) {
+        new Ajax.Request(window.location.pathname + "/join/" + c, {
+          method: 'get'
+        });
+        $("player" + c).select(".playerLoading")[0].show();
+        ev.stop();
+      });
+    });
+  };
+
   this.render = function() {
     var content;
+    // Render joining, leaving, loading and computer icons
     $A(["w", "b"]).each(function(c) {
-      if (this.info.include(c)) {
+      $("player" + c).select(".playerJoin, .playerLeave, .playerLoading, .playerComputer").invoke("hide");
+      if (this.info.include(c)) { // This player is already in
         if (this.myColor == c) {
-          content = new Element("a");
-          content.href = "#";
-          content.innerHTML = "(Leave)";
-          content.observe("click", function(ev) {
-            new Ajax.Request(window.location.pathname + "/leave", {
-              method: 'get'
-            });
-            $("player" + c).update("...");
-            ev.stop();
-          });
-        } else {
-          content = "Occupied";
+          $("player" + c).select(".playerLeave")[0].show();
         }
       } else {
-        if (this.myColor) {
-          content = "Empty";
-        } else {
-          content = new Element("a");
-          content.href = "#";
-          content.innerHTML = "(Join)";
-          content.observe("click", function(ev){
-            new Ajax.Request(window.location.pathname + "/join/" + c, {
-              method: 'get'
-            });
-            $("player" + c).update("...");
-            ev.stop();
-          });
+        if (!this.myColor) {
+          $("player" + c).select(".playerJoin, .playerComputer").invoke("show");
         }
       }
-      $("player" + c).update(content);
     }.bind(this));
-    $$("#players .hasTurn").invoke("removeClassName", "hasTurn");
+    // Render turn indication, winner and loser
+    $$(".turnIndicator").invoke("writeAttribute", "src", "/images/icons/transparent.png"); // TODO: can make change only if needed
     if (this.winner) {
-      $("player" + this.winner).addClassName("playerWinner");
-      $("player" + $A(["w", "b"]).without(this.winner).first()).addClassName("playerLoser");
+      $("player" + this.winner).select(".turnIndicator").invoke("writeAttribute", "src", "/images/icons/winner.png");
+      $("player" + $A(["w", "b"]).without(this.winner).first()).select(".turnIndicator").invoke("writeAttribute", "src", "/images/icons/loser.png");
     } else {
-      $("player" + this.turn()).addClassName("hasTurn");
+      $("player" + this.turn()).select(".turnIndicator").invoke("writeAttribute", "src", "/images/icons/pointer.png");
     }
   };
 

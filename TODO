@@ -2,12 +2,23 @@
   stone walls.
 - Errors can occur in animations if you start moving your piece before the 
   animation of the other player ends.
+- Adding Sounds
+- Put link to page somewhere
+- Flip numbers on board
+
+each player row contains:
+- join, leave
+- choose ai, remove ai, change ai
+- winner, loser status indicator
+- "thinking" status indicator
+- ai status indicator
+- turn status indicator
+- black/white icons
+
 
 Sinan
 =====
 
+Waleed
+======
 
-Omar
-====
-- Adding Sounds
-- Create a general layout for the website

@@ -2,6 +2,7 @@ var game = new function() {
 
   this.setup = function() {
     board.setup();
+    players.setup();
     this.setupPoller();
     board.loopOverBoard(function(i, u, e) {
       e.observe('click', this.onClick.bindAsEventListener(this, i, u));
@@ -86,7 +87,5 @@ var game = new function() {
     players.render();
     players.winner = res['winner'];
   };
-
-  // ===== Rendering =====
 
 };

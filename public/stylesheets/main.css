@@ -135,14 +135,8 @@ hr {
   width: 140px;
   padding: 20px;
 }
-#players .hasTurn {
-  background-color: #ffff82;
-}
-#players .playerWinner {
-  background-color: #7aff7a;
-}
-#players .playerLoser {
-  background-color: #ff7070;
+#players img {
+  vertical-align: sub;
 }
 #board td.label {
   color: #aaa;
