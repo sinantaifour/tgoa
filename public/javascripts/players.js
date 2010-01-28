@@ -9,14 +9,14 @@ var players = new function() {
     $A(["w", "b"]).each(function(c) {
       $("player" + c).select(".playerLeave")[0].observe("click", function(ev) {
         new Ajax.Request(window.location.pathname + "/leave", {
-          method: 'get'
+          method: 'post'
         });
         $("player" + c).select(".playerLoading")[0].show();
         ev.stop();
       });
       $("player" + c).select(".playerJoin")[0].observe("click", function(ev) {
         new Ajax.Request(window.location.pathname + "/join/" + c, {
-          method: 'get'
+          method: 'post'
         });
         $("player" + c).select(".playerLoading")[0].show();
         ev.stop();
@@ -29,6 +29,14 @@ var players = new function() {
           $$(".playerComputers").invoke('hide');
           computersList.show();
         }
+        ev.stop();
+      });
+      $("player" + c).select(".playerComputers li").invoke("observe", "click", function(ev) {
+        new Ajax.Request(window.location.pathname + "/join/" + c + "/" + this.innerHTML, {
+          method: 'post'
+        });
+        $("player" + c).select(".playerComputers")[0].hide();
+        $("player" + c).select(".playerLoading")[0].show();
         ev.stop();
       });
     });

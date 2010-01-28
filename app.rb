@@ -57,14 +57,14 @@ get /\/boards\/(\w+)\/(\d+)/ do |k, r| # TODO: a hash is sent at each request. O
   return {:moves => moves, :players => @game.players.keys, :myColor => my_color, :winner => @game.winner}.to_json
 end
 
-get /\/boards\/(\w+)\/join\/(w|b)/ do |k, c|
+post /\/boards\/(\w+)\/join\/(w|b)\/?(\w+)?/ do |k, c, ai|
   @game = Games.retrieve(k)
   raise Sinatra::NotFound unless @game
-  @game.join(c, identifier)
+  @game.join(c, ai ? "ai-" + ai : identifier)
   return ""
 end
 
-get /\/boards\/(\w+)\/leave/ do |k|
+post /\/boards\/(\w+)\/leave/ do |k|
   @game = Games.retrieve(k)
   raise Sinatra::NotFound unless @game
   @game.leave(identifier)
