@@ -50,7 +50,6 @@ post /\/boards\/(\w+)$/ do |k|
   raise Sinatra::NotFound unless @game
   @player = @game.players.find { |k, v| v == identifier }.to_a[0]
   @game.play(params[:move], @player)
-  @game.set_winner
   return ""
 end
 

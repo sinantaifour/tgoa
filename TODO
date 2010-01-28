@@ -5,6 +5,4 @@
 - Adding Sounds
 - Put link to page somewhere
 - Load threads on start of game
-- set_winner should be called from the model not the controller (for the code 
-  of AI to set the winner). Also, if there is a winner, don't start a thread.
 - Scroll to end on addition to moves list

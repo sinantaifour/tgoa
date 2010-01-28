@@ -34,7 +34,7 @@ module Games
       raise GameError, "Player already in the game" if identifier[0..2] != "ai-" and @players.values.include?(identifier)
       @players[color] = identifier
       @last_update.delete(color)
-      if (@players[@turn] || "")[0..2] == "ai-"
+      if !@winner and (@players[@turn] || "")[0..2] == "ai-"
         Computers.execute(self, @players[@turn], @turn) # TODO: causes a problem if another player joins while the first AI is still "thinking"
       end
     end
@@ -65,7 +65,8 @@ module Games
       @state[move[2][0]][move[2][1]] = "a"
       @moves << move_str
       @turn = (["b", "w"] - [@turn]).first
-      if (@players[@turn] || "")[0..2] == "ai-"
+      set_winner
+      if !@winner and (@players[@turn] || "")[0..2] == "ai-"
         Computers.execute(self, @players[@turn], @turn)
       end
       @turn
