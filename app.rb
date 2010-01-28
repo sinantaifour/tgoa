@@ -13,7 +13,8 @@ helpers do
     if request.cookies["identifier"]
       res = request.cookies["identifier"]
     else
-      res = (rand * 10 ** 10).to_i.to_s(36)
+      res = "ai-"
+      res = (rand * 10 ** 10).to_i.to_s(36) while res[0..2] == "ai-"
       response.set_cookie("identifier", res)
     end
     res
