@@ -138,6 +138,9 @@ hr {
 #players img {
   vertical-align: sub;
 }
+.playerJoin, .playerLeave, .playerComputer {
+  cursor: pointer;
+}
 #board td.label {
   color: #aaa;
   padding: 3px;
