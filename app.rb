@@ -19,6 +19,9 @@ helpers do
     end
     res
   end
+  def filter_players(ps)
+    ps.map { |k, v| [k, (v[0..2] == "ai-") ? v[3..-1] : ""] }.inject({}) { |h, (k, v)| h[k] = v; h }
+  end
 end
 
 get '/' do
@@ -54,7 +57,7 @@ get /\/boards\/(\w+)\/(\d+)/ do |k, r| # TODO: a hash is sent at each request. O
   @game.housekeeping(identifier)
   moves = @game.moves[r.to_i..-1] || []
   my_color = @game.players.find { |k, v| v == identifier }.to_a[0]
-  return {:moves => moves, :players => @game.players.keys, :myColor => my_color, :winner => @game.winner}.to_json
+  return {:moves => moves, :players => filter_players(@game.players), :myColor => my_color, :winner => @game.winner}.to_json
 end
 
 post /\/boards\/(\w+)\/join\/(w|b)\/?(\w+)?/ do |k, c, ai|

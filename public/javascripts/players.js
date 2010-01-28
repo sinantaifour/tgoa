@@ -48,11 +48,19 @@ var players = new function() {
     $A(["w", "b"]).each(function(c) {
       $("player" + c).select(".playerJoin, .playerLeave, .playerLoading, .playerComputer").invoke("hide");
       if (this.winner) { return; }
-      if (this.info.include(c)) { // This player is already in
+      if (!Object.isUndefined(this.info[c])) { // This player is already in
         if (this.myColor == c) {
-          $("player" + c).select(".playerLeave")[0].show();
+          $("player" + c).select(".playerLeave")[0].show(); // TODO: create a helper for $("player" + c).select(...), and cache results.
+          $("player" + c).select(".playerName")[0].update("(Me)");
+        } else {
+          if (this.info[c]) {
+            $("player" + c).select(".playerName")[0].update(this.info[c]);
+          } else {
+            $("player" + c).select(".playerName")[0].update("(Player)");
+          }
         }
       } else {
+        $("player" + c).select(".playerName")[0].update("(Empty)");
         if (!this.myColor) {
           $("player" + c).select(".playerJoin, .playerComputer").invoke("show");
         }
