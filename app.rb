@@ -57,7 +57,7 @@ get /\/boards\/(\w+)\/(\d+)/ do |k, r| # TODO: a hash is sent at each request. O
   return {:moves => moves, :players => @game.players.keys, :myColor => my_color, :winner => @game.winner}.to_json
 end
 
-get /\/boards\/(\w+)\/join\/(w|b)/ do |k, c| # TODO: can't join in both places, can't join if alreayd joined
+get /\/boards\/(\w+)\/join\/(w|b)/ do |k, c|
   @game = Games.retrieve(k)
   raise Sinatra::NotFound unless @game
   @game.join(c, identifier)

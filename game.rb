@@ -30,6 +30,8 @@ module Games
     end
 
     def join(color, identifier)
+      raise GameError, "Seat is not empty" if @players[color]
+      raise GameError, "Player already in the game" if @players.values.include?(identifier)
       @players[color] = identifier
       @last_update.delete(color)
     end
