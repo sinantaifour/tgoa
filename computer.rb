@@ -1,6 +1,6 @@
 module Computers
 
-  IDs = {"ai-tester" => "cFFSe8SJ", "ai-vandale" => "z0bSjz5f"}
+  IDs = {"ai-vandale" => "z0bSjz5f"}
 
   class ComputerError < StandardError; end
 
@@ -9,10 +9,13 @@ module Computers
     def execute(game, name, color)
       id = IDs[name] # TODO: what if it doesn't exist?
       Thread.new do # TODO: need to join this thread somewhere
+        start = Time.now
         ans = SafeCode.run(id, dump_info(game))
         p "*" * 100 # TODO: for debugging only, remove later
         p ans
         ans = computer_to_human(read_answer(ans))
+        overtime = 3 - (Time.now - start)
+        sleep(overtime) if overtime > 0 # Throttle calls
         game.play(ans, color)
       end
     end

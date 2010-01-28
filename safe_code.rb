@@ -31,6 +31,8 @@ class SafeCode
         err[1]
       else
         out = res['inouterr'].match(/<label>output:<\/label>.*?<pre.*?>(.*?)<\/pre>/m)
+        p res['inouterr'] # TODO: for debugging only, remove me later.
+        p out
         raise SafeCodeError, "Error parsing output." unless out
         out[1]
       end

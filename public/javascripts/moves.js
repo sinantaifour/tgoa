@@ -48,6 +48,7 @@ var moves = new function() {
       ev.stop();
     });
     $("moves").insert(div);
+    $("moves").scrollTop = $("moves").scrollHeight
   };
 
   this.populateList = function() {

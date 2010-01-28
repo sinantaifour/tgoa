@@ -35,7 +35,7 @@ module Games
       @players[color] = identifier
       @last_update.delete(color)
       if (@players[@turn] || "")[0..2] == "ai-"
-        Computers.execute(self, @players[@turn], @turn)
+        Computers.execute(self, @players[@turn], @turn) # TODO: causes a problem if another player joins while the first AI is still "thinking"
       end
     end
 
