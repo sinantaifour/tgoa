@@ -4,21 +4,7 @@
   animation of the other player ends.
 - Adding Sounds
 - Put link to page somewhere
-- Flip numbers on board
-
-each player row contains:
-- join, leave
-- choose ai, remove ai, change ai
-- winner, loser status indicator
-- "thinking" status indicator
-- ai status indicator
-- turn status indicator
-- black/white icons
-
-
-Sinan
-=====
-
-Waleed
-======
-
+- Load threads on start of game
+- set_winner should be called from the model not the controller (for the code 
+  of AI to set the winner). Also, if there is a winner, don't start a thread.
+- Scroll to end on addition to moves list

@@ -66,8 +66,9 @@ var players = new function() {
         }
       } else {
         $("player" + c).select(".playerName")[0].update("(Empty)");
+          $("player" + c).select(".playerComputer").invoke("show");
         if (!this.myColor) {
-          $("player" + c).select(".playerJoin, .playerComputer").invoke("show");
+          $("player" + c).select(".playerJoin").invoke("show");
         }
       }
     }.bind(this));

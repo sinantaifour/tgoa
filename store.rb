@@ -7,11 +7,11 @@ class Store
   class << self
 
     def set(k, v)
-      @@store.transaction { @@store[k] = v }
+#      @@store.transaction { @@store[k] = v }
     end
 
     def get(k)
-      @@store.transaction { @@store[k] }
+#      @@store.transaction { @@store[k] }
     end
 
   end
