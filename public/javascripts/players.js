@@ -39,6 +39,7 @@ var players = new function() {
     // Render joining, leaving, loading and computer icons
     $A(["w", "b"]).each(function(c) {
       $("player" + c).select(".playerJoin, .playerLeave, .playerLoading, .playerComputer").invoke("hide");
+      if (this.winner) { return; }
       if (this.info.include(c)) { // This player is already in
         if (this.myColor == c) {
           $("player" + c).select(".playerLeave")[0].show();
