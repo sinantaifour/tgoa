@@ -55,6 +55,11 @@ var players = new function() {
         } else {
           if (this.info[c]) {
             $("player" + c).select(".playerName")[0].update(this.info[c]);
+            if (this.turn() == c) {
+              $("player" + c).select(".playerLoading")[0].show();
+            } else {
+              $("player" + c).select(".playerLoading")[0].hide();
+            }
           } else {
             $("player" + c).select(".playerName")[0].update("(Player)");
           }
