@@ -4,7 +4,10 @@ require 'erb'
 require 'json'
 require 'safe_code'
 require 'store'
+require 'computer'
 require 'game'
+
+Thread.abort_on_exception = true # TODO: only for debugging
 
 Games::Current[nil] = Games::Game.new(nil) # TODO: might be no longer needed
 

@@ -1,14 +1,17 @@
 module Computers
 
-  IDs = {:tester => "cFFSe8SJ"}
+  IDs = {"ai-tester" => "cFFSe8SJ", "ai-vandale" => "z0bSjz5f"}
 
   class ComputerError < StandardError; end
 
   class << self 
 
-    def execute(game, id, color)
+    def execute(game, name, color)
+      id = IDs[name] # TODO: what if it doesn't exist?
       Thread.new do # TODO: need to join this thread somewhere
         ans = SafeCode.run(id, dump_info(game))
+        p "*" * 100 # TODO: for debugging only, remove later
+        p ans
         ans = computer_to_human(read_answer(ans))
         game.play(ans, color)
       end

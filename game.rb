@@ -62,6 +62,10 @@ module Games
       @state[move[2][0]][move[2][1]] = "a"
       @moves << move_str
       @turn = (["b", "w"] - [@turn]).first
+      if @players[@turn][0..2] == "ai-"
+        Computers.execute(self, @players[@turn], @turn)
+      end
+      @turn
     end
 
     def set_winner
