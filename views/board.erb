@@ -82,7 +82,7 @@
     board.state = <%= @game.state.to_json %>;
     moves.movesArray = <%= @game.moves.to_json %>;
     players.info = <%= filter_players(@game.players).to_json %>;
-    players.myColor = <%= @game.players.find { |k, v| v == identifier }.to_a[0].to_json %>;
+    players.myColor = <%= @game.players.find { |k, v| v == @identifier }.to_a[0].to_json %>;
     players.winner = <%= @game.winner.to_json %>;
     game.setup();
   });

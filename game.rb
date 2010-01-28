@@ -41,7 +41,7 @@ module Games
     end
 
     def housekeeping(identifier) # TODO: might need a lock here
-      @players.reject! { |k, v| @last_update[k] and (@last_update[k] + 20 < Time.now) }
+      @players.reject! { |k, v| @last_update[k] and (@last_update[k] + 20 < Time.now) and @players[k][0..2] != "ai-" }
       @players.each { |k, v| @last_update[k] = Time.now if v == identifier }
     end
 
