@@ -21,6 +21,16 @@ var players = new function() {
         $("player" + c).select(".playerLoading")[0].show();
         ev.stop();
       });
+      $("player" + c).select(".playerComputer")[0].observe("click", function(ev) {
+        var computersList = $("player" + c).select(".playerComputers")[0];
+        if (computersList.visible()) {
+          computersList.hide();
+        } else {
+          $$(".playerComputers").invoke('hide');
+          computersList.show();
+        }
+        ev.stop();
+      });
     });
   };
 

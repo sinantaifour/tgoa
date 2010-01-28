@@ -141,6 +141,12 @@ hr {
 .playerJoin, .playerLeave, .playerComputer {
   cursor: pointer;
 }
+.playerComputers {
+  margin-left: 38px;
+}
+.playerComputers li {
+  cursor: pointer;
+}
 #board td.label {
   color: #aaa;
   padding: 3px;
