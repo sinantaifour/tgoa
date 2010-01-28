@@ -9,7 +9,7 @@ var moves = new function() {
   this.moveArrayToString = function(arr) {
     var sep = ["-", "/", ""]
     var coordinate = function(p) {
-      return String.fromCharCode(p[1] + 97) + String(10 - p[0]);
+      return String.fromCharCode(p[1] + 97) + String(p[0] + 1);
     };
     return $A(arr).map(function(p) { return coordinate(p) + sep.shift(); }).join("");
   };
@@ -18,7 +18,7 @@ var moves = new function() {
     var m = str.match(/([a-j](10|[1-9]))-([a-j](10|[1-9]))\/([a-j](10|[1-9]))/);
     if (!m) { return; }
     return $A([1, 3, 5]).map(function(i) {
-      return [10 - parseInt(m[i].substr(1), 10), m[i].charCodeAt(0) - 97];
+      return [parseInt(m[i].substr(1), 10) - 1, m[i].charCodeAt(0) - 97];
     });
   };
 

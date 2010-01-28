@@ -50,7 +50,7 @@ module Games
       # Parse string
       raise GameError, "Must pass move" unless move_str
       raise GameError, "Unable to parse move string" unless m = move_str.downcase.match(/([a-j](10|[1-9]))-([a-j](10|[1-9]))\/([a-j](10|[1-9]))/)
-      move = [1, 3, 5].map { |i| [10 - m[i][1..-1].to_i, m[i][0] - ?a] } # move here contains an array of 3 points, with coordinates suitable for state.
+      move = [1, 3, 5].map { |i| [m[i][1..-1].to_i - 1, m[i][0] - ?a] } # move here contains an array of 3 points, with coordinates suitable for state.
       # Check move
       raise GameError, "Incorrect beginning of move" unless @state[move[0][0]][move[0][1]] == @turn
       raise GameError, "Invalid move" unless valid_pair(move[0], move[1]) and valid_pair(move[1], move[2], move[0])
