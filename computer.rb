@@ -28,7 +28,7 @@ module Computers
     end
 
     def read_answer(ans)
-      ans.split("\n").reject { |l| l.length == 0 || l[0].chr == "#" }[0]
+      ans.split("\n").reject { |l| l.length == 0 || l[0].chr == "#" }[0].chomp
     end
 
     def human_to_computer(h)

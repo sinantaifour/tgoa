@@ -6,3 +6,4 @@
 - Put link to page somewhere
 - Load threads on start of game
 - Scroll to end on addition to moves list
+- Seems sometimes the ending logic is not correct, need to track and test.
